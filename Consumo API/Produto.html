@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <title>
+      Produto Bruno
+    </title>
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <div class="container">
+        <h1>produto</h1>
+
+        <div class="row float-right">
+            <a href="Categoria.html">
+                <button type="button" class="btn btn-secondary"> Voltar pra Categoria </button>
+            </a>
+        </div>
+        <form action="#" id="form">
+            <div class="form-group">
+                <label for="descricao">Descrição do produto:</label>
+                <input type="text" name="descricao" class="form-control" />
+
+                <label for="idcat">Id do produto:</label>
+                <input type="text" name="idcat" class="form-control" />
+               
+            </div>
+
+            <button type="submit" id="submit" class="btn btn-default"> Enviar </button>
+        </form>
+    </div>
+</div>
+
+
+    <table class="table table-striped" id="tabproduto">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">nome</th>
+                <th scope="col">Idcat</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        </div>
+
+
+
+
+
+
+        <script>
+
+            $.ajax({
+                url: "http://localhost:3000/produto",
+                data: "",
+                success: function (response) {
+                    response.forEach(element => {
+                        $("#tabproduto").append(
+                            '<tr><th scope="row">' + element.idProduto + "</th><td>" + element.nome + "</td>" +"<td>" + element.idcat + "</td><td>"+ 
+                            '<button type=" <button type="button" class="btn btn-warning"   onclick = "editcat(' + element.idProduto + ')" > editar </button> <button type="button" class="btn btn-danger" onclick = "delcategoria(' + element.idProduto + ')"> deletar </button> ' + "</td></tr>"
+                        );
+                    });
+                },
+                error: function (data) {
+                    console.log("erro");
+                },
+                dataType: "json"
+            });
+
+
+
+
+            $(document).ready(function () {
+                $("#submit").on("click", function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        url: "http://localhost:3000/produto",
+                        type: "POST",
+                        data: $("#form").serialize(),
+                        success: function (response) {
+                            window.location.href = "./Produto.html";
+                        },
+                        error: function (data) {
+                            console.log("erro");
+                        },
+                        dataType: "text"
+                    });
+                });
+            });
+
+        </script>
+
+
+        <script>
+          
+
+            function delcategoria(id) {
+                $.ajax({
+                    url: 'http://localhost:3000/produto/' + id,
+                    type: "DELETE",
+                    success: function (response) {
+                        window.location.href = "./Produto.html";
+                    },
+                    error: function (data) {
+                        console.log("erro");
+                    },
+                    dataType: "text"
+                });
+            }
+
+            
+
+            function editcat(id) {
+                $.ajax({
+                    url: "http://localhost:3000/produto/" +id,
+                    type: "PUT",
+                    data: {
+                        nome: 123
+
+                    },
+                    success: function (response) {
+                        window.location.href = "./Produto.html";
+                    },
+                    error: function (data) {
+                        console.log("erro");
+                    },
+                    dataType: "text"
+                });
+            }
+
+        </script>
+</body>
+
+</html>
